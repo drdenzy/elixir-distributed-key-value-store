@@ -29,12 +29,12 @@ defmodule KV.BucketTest do
     assert KV.Bucket.delete(bucket, :ghost) == :ok
     assert KV.Bucket.get(bucket, :ghost) == nil
   end
-  
+
   test "pop an existing key from bucket", %{bucket: bucket} do
     KV.Bucket.put(bucket, "milk", 3)
     assert 3 == KV.Bucket.pop(bucket, "milk")
   end
-  
+
   test "pop a non-existent key from bucket", %{bucket: bucket} do
     assert KV.Bucket.pop(bucket, :ghost) == nil
   end
@@ -47,5 +47,9 @@ defmodule KV.BucketTest do
 
     Task.await_many(tasks)
     assert is_integer(KV.Bucket.get(bucket, :counter))
+  end
+
+  test "are temporary workers" do
+    assert Supervisor.child_spec(KV.Bucket, []).restart == :temporary
   end
 end

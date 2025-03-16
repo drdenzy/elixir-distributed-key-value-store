@@ -46,10 +46,11 @@ defmodule KV.Registry do
     if Map.has_key?(names, name) do
       {:noreply, {names, refs}}
     else
-      {:ok, bucket} = KV.Bucket.start_link([])
-      ref = Process.monitor(bucket)
+      # {:ok, bucket} = KV.Bucket.start_link([])
+      {:ok, pid} = DynamicSupervisor.start_child(KV.BucketSupervisor, KV.Bucket)
+      ref = Process.monitor(pid)
       refs = Map.put(refs, ref, name)
-      names = Map.put(names, name, bucket)
+      names = Map.put(names, name, pid)
       {:noreply, {names, refs}}
     end
   end
@@ -64,7 +65,7 @@ defmodule KV.Registry do
   @impl true
   def handle_info(msg, state) do
     require Logger
-    Logger.debug("Unexpected message in KV.Registry: #{inspect(msg)}")
+    Logger.debug("Unexpected message found in KV.Registry: #{inspect(msg)}")
     {:noreply, state}
   end
 end

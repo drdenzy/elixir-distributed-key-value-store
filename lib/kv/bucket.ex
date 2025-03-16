@@ -3,7 +3,7 @@ defmodule KV.Bucket do
   A distributed key-value store backed by an Agent process.
   """
 
-  use Agent
+  use Agent, restart: :temporary
 
   @doc """
   Starts a new bucket process linked to the current process.
