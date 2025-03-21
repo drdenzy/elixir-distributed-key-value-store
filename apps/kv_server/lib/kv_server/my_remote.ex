@@ -54,7 +54,7 @@ defmodule MyRemote do
 
   @doc "Verifies network-accessible local services"
   def check_local_service do
-    case System.cmd("ping", ["-c", "1", "lenovo-local-hostname"]) do
+    case System.cmd("ping", ["-c", "1", "10.0.0.239"]) do
       {_, 0} -> "Connected to Lenovo-local service"
       _ -> "No Lenovo-local service found"
     end
