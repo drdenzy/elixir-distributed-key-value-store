@@ -6,8 +6,21 @@ defmodule KvUmbrella.MixProject do
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      releases: [
+        mac_node: [
+          version: "0.0.1",
+          applications: [kv_server: :permanent, kv: :permanent],
+          cookie: "weknoweachother"
+        ],
+        lenovo_node: [
+          version: "0.0.1",
+          applications: [kv: :permanent],
+          cookie: "weknoweachother"
+        ]
+      ]
     ]
+
   end
 
   # Dependencies listed here are available only for this
