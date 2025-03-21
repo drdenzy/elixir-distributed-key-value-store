@@ -37,7 +37,7 @@ defmodule MyRemote do
   def is_lenovo? do
     case :os.type() do
       {:unix, :linux} -> 
-        String.contains?(hostname(), "lenovo") || 
+        String.contains?(hostname(), "linux") || 
         String.contains?(hostname(), "ubuntu")
       _ -> false
     end
